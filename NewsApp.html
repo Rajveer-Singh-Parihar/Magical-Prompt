@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest News</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .search-container {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        #searchInput {
+            padding: 10px;
+            width: 80%;
+            max-width: 400px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            background: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .category-btn:hover {
+            background: #0056b3;
+        }
+
+        .news-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .news-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .news-content {
+            padding: 15px;
+        }
+
+        .news-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .news-description {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .news-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            font-size: 18px;
+            color: #666;
+        }
+
+        @media (max-width: 600px) {
+            .news-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Latest News</h1>
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search news...">
+        </div>
+        <div class="categories">
+            <button class="category-btn" data-category="general">General</button>
+            <button class="category-btn" data-category="technology">Technology</button>
+            <button class="category-btn" data-category="business">Business</button>
+            <button class="category-btn" data-category="sports">Sports</button>
+            <button class="category-btn" data-category="entertainment">Entertainment</button>
+        </div>
+    </div>
+
+    <div class="news-container" id="newsContainer">
+        <div class="loading">Loading news...</div>
+    </div>
+
+    <script>
+        class NewsApp {
+            constructor() {
+                this.newsContainer = document.getElementById('newsContainer');
+                this.searchInput = document.getElementById('searchInput');
+                this.categoryButtons = document.querySelectorAll('.category-btn');
+                this.currentCategory = 'general';
+                this.articles = [];
+
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.fetchNews('general');
+            }
+
+            setupEventListeners() {
+                this.searchInput.addEventListener('input', () => {
+                    this.filterNews(this.searchInput.value);
+                });
+
+                this.categoryButtons.forEach(button => {
+                    button.addEventListener('click', () => {
+                        const category = button.dataset.category;
+                        this.currentCategory = category;
+                        this.fetchNews(category);
+                    });
+                });
+            }
+
+            async fetchNews(category) {
+                this.newsContainer.innerHTML = '<div class="loading">Loading news...</div>';
+                
+                // Simulating API response since we don't have a real API key
+                const mockNews = [
+                    {
+                        title: "Breaking News: Technology Advancement",
+                        description: "Major breakthrough in artificial intelligence leads to new developments.",
+                        urlToImage: "/api/placeholder/400/320",
+                        publishedAt: "2024-12-30",
+                        source: { name: "Tech Daily" }
+                    },
+                    {
+                        title: "Sports Update: Championship Finals",
+                        description: "Exciting match results in unexpected victory for underdogs.",
+                        urlToImage: "/api/placeholder/400/320",
+                        publishedAt: "2024-12-30",
+                        source: { name: "Sports Network" }
+                    },
+                    {
+                        title: "Business Report: Market Trends",
+                        description: "Global markets show positive growth in multiple sectors.",
+                        urlToImage: "/api/placeholder/400/320",
+                        publishedAt: "2024-12-30",
+                        source: { name: "Business Weekly" }
+                    },
+                    {
+                        title: "Entertainment: New Movie Release",
+                        description: "Highly anticipated film breaks box office records.",
+                        urlToImage: "/api/placeholder/400/320",
+                        publishedAt: "2024-12-30",
+                        source: { name: "Entertainment Today" }
+                    }
+                ];
+
+                setTimeout(() => {
+                    this.articles = mockNews;
+                    this.renderNews(mockNews);
+                }, 1000);
+            }
+
+            filterNews(searchTerm) {
+                const filteredArticles = this.articles.filter(article => {
+                    return article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           article.description.toLowerCase().includes(searchTerm.toLowerCase());
+                });
+                this.renderNews(filteredArticles);
+            }
+
+            renderNews(articles) {
+                if (articles.length === 0) {
+                    this.newsContainer.innerHTML = '<div class="loading">No news found</div>';
+                    return;
+                }
+
+                this.newsContainer.innerHTML = articles.map(article => `
+                    <div class="news-card">
+                        <img class="news-image" src="${article.urlToImage}" alt="${article.title}">
+                        <div class="news-content">
+                            <h2 class="news-title">${article.title}</h2>
+                            <p class="news-description">${article.description}</p>
+                            <div class="news-meta">
+                                <span>${article.source.name}</span>
+                                <span>${new Date(article.publishedAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Initialize the app
+        const newsApp = new NewsApp();
+    </script>
+</body>
+</html>

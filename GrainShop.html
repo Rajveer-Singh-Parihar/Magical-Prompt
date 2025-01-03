@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrainLand - Premium Grain Shop</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <style>
+        .gradient-text {
+            background: linear-gradient(45deg, #22c55e, #3b82f6, #a855f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: gradient 5s ease infinite;
+        }
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .product-section {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 40;
+        }
+        .contact-gradient {
+            background: linear-gradient(135deg, #4ade80 0%, #3b82f6 50%, #a855f7 100%);
+        }
+        .input-gradient:focus {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1) 0%, rgba(59, 130, 246, 0.1) 50%, rgba(168, 85, 247, 0.1) 100%);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-emerald-100 via-sky-100 to-violet-100">
+    <!-- Navigation -->
+    <nav class="bg-white/80 backdrop-blur-md text-gray-800 p-4 fixed top-0 left-0 right-0 z-50 border-b border-gray-200">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-3xl font-extrabold gradient-text">GrainLand</h1>
+            <button id="menuBtn" class="md:hidden text-gray-600 hover:text-gray-900">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+            <div id="mobileMenu" class="hidden md:flex md:items-center absolute md:static top-16 left-0 right-0 bg-white/90 md:bg-transparent shadow-lg md:shadow-none">
+                <a href="#home" class="block md:inline-block p-3 hover:text-emerald-600 transition-colors md:ml-8">Home</a>
+                <a href="#products" class="block md:inline-block p-3 hover:text-emerald-600 transition-colors md:ml-8">Products</a>
+                <a href="#contact" class="block md:inline-block p-3 hover:text-emerald-600 transition-colors md:ml-8">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative h-screen flex items-center justify-center overflow-hidden pt-32">
+        <canvas id="heroCanvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+        <div class="container mx-auto px-4 text-center relative z-10">
+            <h2 class="text-6xl font-bold text-gray-800 mb-6 opacity-0" id="heroTitle">Welcome to GrainLand</h2>
+            <p class="text-2xl text-gray-700 mb-8 opacity-0" id="heroText">Your trusted shop for premium quality grains</p>
+            <button class="bg-gradient-to-r from-emerald-500 to-sky-500 text-white px-8 py-4 rounded-full hover:scale-105 transition duration-300 shadow-lg opacity-0" id="heroButton">
+                Explore Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="product-section py-12">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl font-bold text-center mb-16 text-gray-800">Our Products</h2>
+            <div class="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide">
+                <div class="product-card bg-white rounded-2xl shadow-xl flex-shrink-0 w-64 overflow-hidden transition-all duration-300">
+                    <div class="h-40 bg-emerald-200 flex items-center justify-center">
+                        <img src="https://via.placeholder.com/400x320" alt="Organic Wheat" class="object-cover w-full h-full">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Organic Wheat</h3>
+                        <p class="text-emerald-600 font-bold">$25.00 / kg</p>
+                    </div>
+                </div>
+                <div class="product-card bg-white rounded-2xl shadow-xl flex-shrink-0 w-64 overflow-hidden transition-all duration-300">
+                    <div class="h-40 bg-sky-200 flex items-center justify-center">
+                        <img src="https://via.placeholder.com/400x320" alt="Basmati Rice" class="object-cover w-full h-full">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Basmati Rice</h3>
+                        <p class="text-emerald-600 font-bold">$30.00 / kg</p>
+                    </div>
+                </div>
+                <div class="product-card bg-white rounded-2xl shadow-xl flex-shrink-0 w-64 overflow-hidden transition-all duration-300">
+                    <div class="h-40 bg-violet-200 flex items-center justify-center">
+                        <img src="https://via.placeholder.com/400x320" alt="Corn Flour" class="object-cover w-full h-full">
+                    </div>
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-2">Corn Flour</h3>
+                        <p class="text-emerald-600 font-bold">$15.00 / kg</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-32 contact-gradient">
+        <div class="container mx-auto px-4">
+            <h2 class="text-5xl font-bold text-center mb-16 text-white">Get in Touch</h2>
+            <div class="max-w-2xl mx-auto">
+                <form class="space-y-8 bg-white/20 backdrop-blur-lg p-12 rounded-3xl shadow-2xl">
+                    <div>
+                        <label class="block text-white mb-3 text-lg font-medium">Name</label>
+                        <input type="text" class="w-full p-4 bg-white/50 border-2 border-white/30 rounded-xl focus:ring-4 focus:ring-white/30 focus:border-transparent transition input-gradient text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-white mb-3 text-lg font-medium">Email</label>
+                        <input type="email" class="w-full p-4 bg-white/50 border-2 border-white/30 rounded-xl focus:ring-4 focus:ring-white/30 focus:border-transparent transition input-gradient text-lg">
+                    </div>
+                    <div>
+                        <label class="block text-white mb-3 text-lg font-medium">Message</label>
+                        <textarea class="w-full p-4 bg-white/50 border-2 border-white/30 rounded-xl h-40 focus:ring-4 focus:ring-white/30 focus:border-transparent transition input-gradient text-lg"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-white text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-violet-500 py-4 rounded-xl text-xl font-bold hover:shadow-lg transition duration-300 transform hover:scale-105 border-2 border-white/50">
+                        Send Message
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 GrainLand. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Three.js Animation
+        gsap.registerPlugin(ScrollTrigger);
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#heroCanvas'),
+            alpha: true,
+            antialias: true
+        });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        camera.position.z = 5;
+
+        const particles = new THREE.Group();
+        const particleGeometry = new THREE.SphereGeometry(0.1, 16, 16);
+        const particleMaterial = new THREE.MeshPhongMaterial({
+            color: 0x22c55e,
+            shininess: 100
+        });
+
+        for (let i = 0; i < 50; i++) {
+            const particle = new THREE.Mesh(particleGeometry, particleMaterial);
+            particle.position.set(
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10,
+                (Math.random() - 0.5) * 10
+            );
+            particles.add(particle);
+        }
+        scene.add(particles);
+
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        const pointLight = new THREE.PointLight(0xffffff, 1);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+
+        function animate() {
+            requestAnimationFrame(animate);
+            particles.rotation.x += 0.001;
+            particles.rotation.y += 0.002;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        gsap.from("#heroTitle", {
+            duration: 1.5,
+            y: 100,
+            opacity: 0,
+            ease: "power4.out"
+        });
+
+        gsap.from("#heroText", {
+            duration: 1.5,
+            y: 50,
+            opacity: 0,
+            ease: "power4.out",
+            delay: 0.5
+        });
+
+        gsap.from("#heroButton", {
+            duration: 1.5,
+            scale: 0.5,
+            opacity: 0,
+            ease: "elastic.out(1, 0.5)",
+            delay: 1
+        });
+
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            gsap.from("#mobileMenu a", {
+                y: -20,
+                opacity: 0,
+                duration: 0.3,
+                stagger: 0.1,
+                ease: "power2.out"
+            });
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    window.scrollTo({
+                        top: target.offsetTop,
+                        behavior: 'smooth'
+                    });
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
